@@ -7,3 +7,6 @@ Story:
 In ancient times, a powerful kingdom was renowned for its wealth, wisdom, and peace. However, one day, forces of darkness ravaged the land, obliterating everything that was once beautiful. The king turned to the mages to save the kingdom, but their ritual didn't go as planned. As a result, the entire kingdom was transported to another reality, where it survived on the brink of destruction.
 
 The player steps into the shoes of a chosen hero who arrives in the lost kingdom to uncover the truth behind the cataclysmic event. During the exploration of vast dungeons and mysterious corners, players will face dangers and encounter other survivors who have endured in this doomed place.
+
+***
+The Lost Kingdom is a game that combines exploration, turn-based combat, character development, and unraveling the mysteries of a lost realm. Players will have the freedom to shape their own path and the destiny of the kingdom. Will you uncover the truth and restore the lost realm to its former glory? Prepare for a grand adventure in The Lost Kingdom!
