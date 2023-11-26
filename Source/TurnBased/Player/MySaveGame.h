@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 UCLASS()
 class TURNBASED_API UMySaveGame : public USaveGame
 {
@@ -21,5 +22,8 @@ public:
 	
 	UPROPERTY(VisibleAnywhere)
 	FRotator CurrentPlayerRotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int64 CurrentPlayerLevel;
 	
 };

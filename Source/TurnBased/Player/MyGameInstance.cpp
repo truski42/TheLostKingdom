@@ -9,6 +9,7 @@ UMyGameInstance::UMyGameInstance()
 {
 	PlayerLocation = FVector (-4806.261275, -172.659734,207.889770);
 	PlayerRotation = FRotator (0.f, 0.f, 0.f);
+	PlayerLevel = 0;
 }
 
 
@@ -32,6 +33,7 @@ void UMyGameInstance::SaveGame()
 
 	if(DataToSave !=nullptr)
 	{
+		DataToSave->CurrentPlayerLevel = PlayerLevel;
 		DataToSave->CurrentPlayerLocation = PlayerLocation;
 		DataToSave->CurrentPlayerRotation = PlayerRotation;
 		UGameplayStatics::SaveGameToSlot(DataToSave, "Slot1",0);
@@ -47,6 +49,7 @@ void UMyGameInstance::LoadGame()
 
 	if(DataToLoad !=nullptr)
 	{
+		PlayerLevel = DataToLoad->CurrentPlayerLevel;
 		PlayerLocation = DataToLoad->CurrentPlayerLocation;
 		PlayerRotation = DataToLoad->CurrentPlayerRotation;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Loaded"));

@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 UCLASS()
 class TURNBASED_API UMyGameInstance : public UGameInstance
 {
@@ -31,4 +32,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FRotator PlayerRotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int64 PlayerLevel;
+	
 };
