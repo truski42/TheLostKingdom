@@ -25,5 +25,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int64 CurrentPlayerLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CurrentExp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CurrentNeededExp;
 	
 };

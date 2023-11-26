@@ -41,4 +41,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
 	UInputAction* InputToLoad;
+
+	// Player level
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+	int64 Level;
+
+	//Player current experience
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stats")
+	float Exp = 0.f;
+
+	//Experience need to level up
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stats")
+	float NeededExp = 100.f;
+	
+
 };
