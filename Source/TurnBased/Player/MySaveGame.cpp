@@ -10,4 +10,5 @@ UMySaveGame::UMySaveGame()
 	CurrentPlayerLevel = 0;
 	CurrentExp = 0.f;
 	CurrentNeededExp = 100.f;
+	
 }

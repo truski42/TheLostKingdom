@@ -54,5 +54,4 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stats")
 	float NeededExp = 100.f;
 	
-
 };

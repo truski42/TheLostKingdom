@@ -10,6 +10,7 @@
  * 
  */
 
+
 UCLASS()
 class TURNBASED_API UMyGameInstance : public UGameInstance
 {
@@ -40,6 +41,8 @@ public:
 	float PlayerExp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float PlayerNeededExp;	
+	float PlayerNeededExp;
+
+
 	
 };

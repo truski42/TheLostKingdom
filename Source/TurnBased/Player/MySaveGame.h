@@ -9,7 +9,18 @@
 /**
  * 
  */
+USTRUCT(BlueprintType)
+struct FPlayerData
+{
+	GENERATED_USTRUCT_BODY()
 
+	UPROPERTY(EditAnywhere)
+	TArray<uint32> PlayerStatsInt;
+
+	UPROPERTY(EditAnywhere)
+	TArray<float> PlayerStatsFloat;
+	
+};
 UCLASS()
 class TURNBASED_API UMySaveGame : public USaveGame
 {
@@ -17,6 +28,11 @@ class TURNBASED_API UMySaveGame : public USaveGame
 
 	UMySaveGame();
 public:
+
+	FPlayerData PlayerStats;
+	
+	
+	
 	UPROPERTY(VisibleAnywhere)
 	FVector CurrentPlayerLocation;
 	
@@ -31,5 +47,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CurrentNeededExp;
-	
+
+
 };

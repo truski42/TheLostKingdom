@@ -12,6 +12,7 @@ UMyGameInstance::UMyGameInstance()
 	PlayerLevel = 0;
 	PlayerExp = 0.f;
 	PlayerNeededExp = 100.f;
+	
 }
 
 
@@ -45,6 +46,16 @@ void UMyGameInstance::SaveGame()
 	{
 		CreateSaveFile();
 	}
+	// FArchive* SaveGameArchive = IFileManager::Get().CreateFileWriter(TEXT("SaveGame.dat"));
+	//
+	// if(SaveGameArchive)
+	// {
+	// 	*SaveGameArchive << PlayerLevel;
+	// 	*SaveGameArchive << PlayerExp;
+	// 	*SaveGameArchive << PlayerNeededExp;
+	// 	SaveGameArchive->Close();
+	// }
+	
 }
 // Load game objects
 void UMyGameInstance::LoadGame()
@@ -65,4 +76,14 @@ void UMyGameInstance::LoadGame()
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Game without save"));
 		CreateSaveFile();
 	}
+
+	// FArchive* SaveGameArchive = IFileManager::Get().CreateFileReader(TEXT("SaveGame.dat"));
+	// if(SaveGameArchive)
+	// {
+	// 	*SaveGameArchive << PlayerLevel;
+	// 	*SaveGameArchive << PlayerExp;
+	// 	*SaveGameArchive << PlayerNeededExp;
+	// 	SaveGameArchive->Close();
+	// }
 }
+
