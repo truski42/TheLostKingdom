@@ -2,17 +2,14 @@
 
 
 #include "MyGameInstance.h"
+
+#include "EngineUtils.h"
 #include "MySaveGame.h"
 #include "Kismet/GameplayStatics.h"
+#include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 
 UMyGameInstance::UMyGameInstance()
 {
-	PlayerLocation = FVector (-4806.261275, -172.659734,207.889770);
-	PlayerRotation = FRotator (0.f, 0.f, 0.f);
-	PlayerLevel = 0;
-	PlayerExp = 0.f;
-	PlayerNeededExp = 100.f;
-	
 }
 
 
@@ -36,54 +33,65 @@ void UMyGameInstance::SaveGame()
 
 	if(DataToSave !=nullptr)
 	{
-		DataToSave->CurrentPlayerLevel = PlayerLevel;
-		DataToSave->CurrentPlayerLocation = PlayerLocation;
-		DataToSave->CurrentPlayerRotation = PlayerRotation;
-		DataToSave->CurrentExp = PlayerExp;
-		DataToSave->CurrentNeededExp = PlayerNeededExp;
+		for(FActorIterator It(GetWorld()); It; ++It)
+		{
+			AActor* Actor = *It;
+			FActorSaveData ActorSaveData;
+			ActorSaveData.Transform = Actor->GetActorTransform();
+			ActorSaveData.ActorName = Actor->GetFName();
+
+			FMemoryWriter MemWriter(ActorSaveData.ByteData);
+
+			FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
+
+			Ar.ArIsSaveGame = true;
+			Actor->Serialize(Ar);
+
+			DataToSave->SavedActors.Add(ActorSaveData);
+		}
 		UGameplayStatics::SaveGameToSlot(DataToSave, "Slot1",0);
 	}else if (!UGameplayStatics::DoesSaveGameExist("Slo1", 0))
 	{
 		CreateSaveFile();
 	}
-	// FArchive* SaveGameArchive = IFileManager::Get().CreateFileWriter(TEXT("SaveGame.dat"));
-	//
-	// if(SaveGameArchive)
-	// {
-	// 	*SaveGameArchive << PlayerLevel;
-	// 	*SaveGameArchive << PlayerExp;
-	// 	*SaveGameArchive << PlayerNeededExp;
-	// 	SaveGameArchive->Close();
-	// }
 	
 }
 // Load game objects
 void UMyGameInstance::LoadGame()
 {
-	UMySaveGame* DataToLoad = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
+	if (UGameplayStatics::DoesSaveGameExist("Slot1", 0)){
+		UMySaveGame* DataToLoad = Cast<UMySaveGame>(UGameplayStatics::LoadGameFromSlot("Slot1", 0));
+		if (DataToLoad == nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Failed to load SaveGame Data."));
+			return;
+		}
+		
+		UE_LOG(LogTemp, Log, TEXT("Loaded SaveGame Data."));
+		for (FActorIterator It(GetWorld()); It; ++It)
+		{
+			AActor* Actor = *It;
 
-	if(DataToLoad !=nullptr)
-	{
-		PlayerLevel = DataToLoad->CurrentPlayerLevel;
-		PlayerLocation = DataToLoad->CurrentPlayerLocation;
-		PlayerRotation = DataToLoad->CurrentPlayerRotation;
-		PlayerExp = DataToLoad->CurrentExp;
-		PlayerNeededExp = DataToLoad->CurrentNeededExp;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Loaded"));
+			for (FActorSaveData ActorData : DataToLoad->SavedActors)
+			{
+				if (ActorData.ActorName == Actor->GetFName())
+				{
+					Actor->SetActorTransform(ActorData.Transform);
 
-	}else if(!UGameplayStatics::DoesSaveGameExist("Slot1", 0))
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Game without save"));
-		CreateSaveFile();
+					FMemoryReader MemReader(ActorData.ByteData);
+
+					FObjectAndNameAsStringProxyArchive Ar(MemReader, true);
+					Ar.ArIsSaveGame = true;
+					// Convert binary array back into actor's variables
+					Actor->Serialize(Ar);
+					break;
+				}
+			}
+		}
 	}
-
-	// FArchive* SaveGameArchive = IFileManager::Get().CreateFileReader(TEXT("SaveGame.dat"));
-	// if(SaveGameArchive)
-	// {
-	// 	*SaveGameArchive << PlayerLevel;
-	// 	*SaveGameArchive << PlayerExp;
-	// 	*SaveGameArchive << PlayerNeededExp;
-	// 	SaveGameArchive->Close();
-	// }
 }
-
+/*else if(!UGameplayStatics::DoesSaveGameExist("Slot1", 0))
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Game without save"));
+	CreateSaveFile();
+}*/

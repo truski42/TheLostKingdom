@@ -53,5 +53,4 @@ public:
 	//Experience need to level up
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stats")
 	float NeededExp = 100.f;
-	
 };

@@ -9,44 +9,63 @@
 /**
  * 
  */
-USTRUCT(BlueprintType)
-struct FPlayerData
+USTRUCT()
+struct FActorSaveData
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
+public:
+	UPROPERTY()
+	FName ActorName;
 
-	UPROPERTY(EditAnywhere)
-	TArray<uint32> PlayerStatsInt;
+	UPROPERTY()
+	FTransform Transform;
 
-	UPROPERTY(EditAnywhere)
-	TArray<float> PlayerStatsFloat;
-	
+	UPROPERTY()
+	TArray<uint8> ByteData;
 };
+
+USTRUCT()
+struct FPlayerSaveData
+{
+	GENERATED_BODY()
+
+public:
+	FPlayerSaveData()
+	{
+		Location = FVector (-4806.261275, -172.659734,207.889770);
+		Rotation = FRotator::ZeroRotator;
+		bResumeAtTransform = true;
+	}
+
+	UPROPERTY()
+	FString PlayerID;
+	
+	/* Location if player was alive during save */
+	UPROPERTY()
+	FVector Location;
+
+	/* Orientation if player was alive during save */ 
+	UPROPERTY()
+	FRotator Rotation;
+
+	/* We don't always want to restore location, and may just resume player at specific respawn point in world. */
+	UPROPERTY()
+	bool bResumeAtTransform;
+};
+
+
 UCLASS()
 class TURNBASED_API UMySaveGame : public USaveGame
 {
 	GENERATED_BODY()
 
-	UMySaveGame();
 public:
-
-	FPlayerData PlayerStats;
 	
+	UPROPERTY()
+	TArray<FPlayerSaveData> SavedPlayers;
+
+	UPROPERTY()
+	TArray<FActorSaveData> SavedActors;
 	
-	
-	UPROPERTY(VisibleAnywhere)
-	FVector CurrentPlayerLocation;
-	
-	UPROPERTY(VisibleAnywhere)
-	FRotator CurrentPlayerRotation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int64 CurrentPlayerLevel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float CurrentExp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float CurrentNeededExp;
-
 
 };

@@ -19,12 +19,6 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	UMyGameInstance* GameInstance = GetWorld()->GetGameInstance<UMyGameInstance>();
-	SetActorLocation(GameInstance->PlayerLocation);
-	SetActorRotation(GameInstance->PlayerRotation);
-	Level = GameInstance->PlayerLevel;
-	Exp = GameInstance->PlayerExp;
-	NeededExp = GameInstance->PlayerNeededExp;
-
 
 	//LoadGame();
 	//Set mapping context by default
@@ -59,11 +53,6 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 void AMyCharacter::SaveGame()
 {
 	UMyGameInstance* GameInstance = GetWorld()->GetGameInstance<UMyGameInstance>();
-	GameInstance->PlayerLocation = GetActorLocation();
-	GameInstance->PlayerRotation = GetActorRotation();
-	GameInstance->PlayerLevel = Level;
-	GameInstance->PlayerExp = Exp;
-	GameInstance->PlayerNeededExp = NeededExp;
 	GameInstance->SaveGame();
 	//Log a message to show we have save the game*/
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Saved"));

@@ -28,21 +28,5 @@ public:
 	//Create save file
 	void CreateSaveFile();
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector PlayerLocation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FRotator PlayerRotation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int64 PlayerLevel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float PlayerExp;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float PlayerNeededExp;
-
-
 	
 };
