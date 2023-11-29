@@ -9,7 +9,7 @@
 /**
  * 
  */
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FActorSaveData
 {
 	GENERATED_BODY()
@@ -20,7 +20,7 @@ public:
 	UPROPERTY()
 	FTransform Transform;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<uint8> ByteData;
 };
 

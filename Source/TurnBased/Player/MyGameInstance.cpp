@@ -7,6 +7,7 @@
 #include "MySaveGame.h"
 #include "Kismet/GameplayStatics.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
+#include "TurnBased/ItemComponent.h"
 
 UMyGameInstance::UMyGameInstance()
 {
@@ -33,28 +34,32 @@ void UMyGameInstance::SaveGame()
 
 	if(DataToSave !=nullptr)
 	{
+		DataToSave->SavedActors.Empty();
 		for(FActorIterator It(GetWorld()); It; ++It)
 		{
 			AActor* Actor = *It;
-			FActorSaveData ActorSaveData;
-			ActorSaveData.Transform = Actor->GetActorTransform();
-			ActorSaveData.ActorName = Actor->GetFName();
+			if (Actor->FindComponentByClass<UItemComponent>())
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Name of Actor Saved: %s"), *Actor->GetFName().ToString());
+				FActorSaveData ActorSaveData;
+				ActorSaveData.Transform = Actor->GetActorTransform();
+				ActorSaveData.ActorName = Actor->GetFName();
 
-			FMemoryWriter MemWriter(ActorSaveData.ByteData);
+				FMemoryWriter MemWriter(ActorSaveData.ByteData);
 
-			FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
+				FObjectAndNameAsStringProxyArchive Ar(MemWriter, true);
 
-			Ar.ArIsSaveGame = true;
-			Actor->Serialize(Ar);
+				Ar.ArIsSaveGame = true;
+				Actor->Serialize(Ar);
 
-			DataToSave->SavedActors.Add(ActorSaveData);
+				DataToSave->SavedActors.Add(ActorSaveData);
+			}
 		}
 		UGameplayStatics::SaveGameToSlot(DataToSave, "Slot1",0);
 	}else if (!UGameplayStatics::DoesSaveGameExist("Slo1", 0))
 	{
 		CreateSaveFile();
 	}
-	
 }
 // Load game objects
 void UMyGameInstance::LoadGame()
@@ -71,7 +76,6 @@ void UMyGameInstance::LoadGame()
 		for (FActorIterator It(GetWorld()); It; ++It)
 		{
 			AActor* Actor = *It;
-
 			for (FActorSaveData ActorData : DataToLoad->SavedActors)
 			{
 				if (ActorData.ActorName == Actor->GetFName())
@@ -84,6 +88,7 @@ void UMyGameInstance::LoadGame()
 					Ar.ArIsSaveGame = true;
 					// Convert binary array back into actor's variables
 					Actor->Serialize(Ar);
+					UE_LOG(LogTemp, Warning, TEXT("Name of Actor Loaded: %s"), *Actor->GetFName().ToString());
 					break;
 				}
 			}

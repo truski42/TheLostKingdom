@@ -58,10 +58,11 @@ void AMyCharacter::SaveGame()
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Game Saved"));
 }
 
-// Load Game
 void AMyCharacter::LoadGame()
 {
-
+	UMyGameInstance* GameInstance = GetWorld()->GetGameInstance<UMyGameInstance>();
+	GameInstance->LoadGame();
+	//UGameplayStatics::OpenLevel(this, "MainCity");
 }
 
 

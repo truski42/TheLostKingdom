@@ -23,9 +23,8 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	void SaveGame();
 
-	void LoadGame();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -41,16 +40,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enhanced Input")
 	UInputAction* InputToLoad;
+	
+	void SaveGame();
 
-	// Player level
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	int64 Level;
-
-	//Player current experience
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stats")
-	float Exp = 0.f;
-
-	//Experience need to level up
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stats")
-	float NeededExp = 100.f;
+	void LoadGame();
 };
