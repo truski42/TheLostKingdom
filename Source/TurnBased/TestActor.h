@@ -14,12 +14,8 @@ class TURNBASED_API ATestActor : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ATestActor();
-	UFUNCTION(BlueprintPure)
-	static int TestInt(int X, int Y);
-
-	UFUNCTION(BlueprintPure)
-	static int TestFloat(int LoopAmount);
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, SaveGame)
+	float Health;
 
 protected:
 	// Called when the game starts or when spawned
